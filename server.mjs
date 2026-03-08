@@ -8,7 +8,7 @@ const envFileMap = {
 };
 
 dotenv.config({
-  path: envFileMap[process.env.NODE_ENV] || "./env/.env.prod"
+  path: envFileMap[process.env.VITE_ENV] || "./env/.env.prod"
 });
 
 import { createRequestHandler } from "@remix-run/express";
