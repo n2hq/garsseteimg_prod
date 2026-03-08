@@ -22,7 +22,7 @@ echo "🔄 Pulling latest changes..."
 
 
 echo "🛠  Building PROD..."
-npm run build:prod
+#npm run build:prod
 
 
 echo "📦  Staging changes..."
