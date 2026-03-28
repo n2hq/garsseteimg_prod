@@ -33,7 +33,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         const bid = formData.get("bid") as string | null;
         const productTitle = formData.get("product_title") as string | null;
         const productDescription = formData.get("product_description") as string | null;
-        const productAmount = Number(formData.get("product_amount") as string) || 0;
+        const productAmount = Number(formData.get("product_amount") as string) || Number(0.0);
+        console.log(productAmount)
         const productCurrencyCountryId = (formData.get("product_currency_country_id") as string) || "";
 
         const productLink = formData.get("product_link") as string | null;
