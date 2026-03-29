@@ -4,7 +4,19 @@ import fs from "fs/promises";
 import { ActionFunctionArgs, LoaderFunction } from "@remix-run/node";
 import path from "path";
 
-const businessProfileUploadsDir = path.resolve("/vmedia/business_profile_pics");
+
+let BASE_UPLOAD_DIR = "";
+
+if (process.env.NODE_ENV === "production") {
+    BASE_UPLOAD_DIR = "/var/www/vmedia";
+} else if (process.env.NODE_ENV === "test") {
+    BASE_UPLOAD_DIR = "/var/www/tmedia";
+} else {
+    BASE_UPLOAD_DIR = path.resolve("vmedia");
+}
+
+const businessProfileUploadsDir = path.join(BASE_UPLOAD_DIR, "business_profile_pics");
+
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     /* if (request.method === "OPTIONS") {
