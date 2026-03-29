@@ -56,7 +56,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         await fs.mkdir(businessProfileUploadsDir, { recursive: true });
 
         const filePath = path.join(businessProfileUploadsDir, uniqueName);
-        await fs.writeFile(filePath, buffer);
+        await fs.writeFile(filePath, outputBuffer);
 
         const fileUrl = `/business_profile_pics/${uniqueName}`;
         let mimeType = file.type;
