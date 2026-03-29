@@ -68,6 +68,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
             [guid, bid]
         );
 
+        console.log(uniqueName)
+        console.log(guid)
+        console.log(imageGuid)
+        console.log(bid)
+        console.log(fileUrl)
+        console.log(mimeType)
 
         if (exists.length === 0) {
             const result = await query(
