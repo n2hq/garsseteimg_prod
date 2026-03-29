@@ -60,14 +60,20 @@ const app = express();
 //const PORT = 3333;
 const port = process.env.PORT || process.env.VITE_PORT || 3001;
 
-app.use(compression());
-app.use(morgan("tiny"));
-// http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
-app.disable("x-powered-by");
 app.use(cors({
   origin: ALLOWED_ORIGIN,
   credentials: true
 }));
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(compression());
+
+// http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
+app.disable("x-powered-by");
 
 // handle asset requests
 if (viteDevServer) {
@@ -80,26 +86,14 @@ if (viteDevServer) {
   );
 }
 
-// handle SSR requests
-app.all("*", remixHandler);
-
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-app.use(express.static(path.join(__dirname, 'public')));
-
-
-
-
-
-
 // Everything else (like favicon.ico) is cached for an hour. You may want to be
 // more aggressive with this caching.
-//app.use(express.static("build/client", { maxAge: "1h" }));
+app.use(express.static("build/client", { maxAge: "1h" }));
 
+app.use(morgan("tiny"));
 
-
+// handle SSR requests
+app.all("*", remixHandler);
 
 console.log("🔧 Loaded ENV:", process.env.VITE_PORT, process.env.VITE_SITENAME);
 
