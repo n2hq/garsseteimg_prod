@@ -50,12 +50,13 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
         outputBuffer = buffer
 
+        let bufferExt = ".jpg"
         outputBuffer = await sharp(buffer)
             .jpeg({ quality: 90 })
             .toBuffer();
-        ext = ".jpg"
 
-        const uniqueName = `${Date.now()}_${uuidname}${ext}`;
+
+        const uniqueName = `${Date.now()}_${uuidname}${bufferExt}`;
 
         await fs.mkdir(businessGalleryUploadsDir, { recursive: true });
 
