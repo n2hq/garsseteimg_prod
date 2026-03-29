@@ -48,6 +48,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         let outputBuffer
         let ext = path.extname(file.name).toLowerCase();
 
+        outputBuffer = buffer
+
         outputBuffer = await sharp(buffer)
             .jpeg({ quality: 90 })
             .toBuffer();
@@ -58,7 +60,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         await fs.mkdir(businessGalleryUploadsDir, { recursive: true });
 
         const filePath = path.join(businessGalleryUploadsDir, uniqueName);
-        await fs.writeFile(filePath, buffer);
+        await fs.writeFile(filePath, outputBuffer);
 
         const fileUrl = `/business_gallery_pics/${uniqueName}`;
         let mimeType = file.type;
