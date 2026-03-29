@@ -4,7 +4,6 @@ import path from "path";
 import crypto from "crypto";
 import { DoResponse } from "~/lib/lib";
 import { query } from "../DB";
-import sharp from "sharp";
 
 const businessGalleryUploadsDir = path.resolve("public/business_gallery_pics");
 
@@ -43,29 +42,17 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         }
 
         const buffer = Buffer.from(await file.arrayBuffer());
+        const ext = '.jpg' //path.extname(file.name);
         const uuidname = crypto.randomUUID();
-
-        let outputBuffer
-        let ext = path.extname(file.name).toLowerCase();
-
-        outputBuffer = buffer
-
-        let bufferExt = ".jpg"
-        outputBuffer = await sharp(buffer)
-            .jpeg({ quality: 90 })
-            .toBuffer();
-
-
-        const uniqueName = `${Date.now()}_${uuidname}${bufferExt}`;
+        const uniqueName = `${Date.now()}_${uuidname}${ext}`;
 
         await fs.mkdir(businessGalleryUploadsDir, { recursive: true });
 
         const filePath = path.join(businessGalleryUploadsDir, uniqueName);
-        await fs.writeFile(filePath, outputBuffer);
+        await fs.writeFile(filePath, buffer);
 
         const fileUrl = `/business_gallery_pics/${uniqueName}`;
-        let mimeType = file.type;
-        mimeType = 'image/jpeg'
+        const mimeType = file.type;
         const imageGuid = crypto.randomUUID();
 
         const result = await query(
