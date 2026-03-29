@@ -3,6 +3,7 @@ import { query } from "../DB";
 import fs from "fs/promises";
 import { ActionFunctionArgs, LoaderFunction } from "@remix-run/node";
 import path from "path";
+import sharp from "sharp";
 
 const businessProfileUploadsDir = path.resolve("public/business_profile_pics");
 
@@ -40,8 +41,16 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         }
 
         const buffer = Buffer.from(await file.arrayBuffer());
-        const ext = path.extname(file.name);
         const uuidname = crypto.randomUUID();
+
+        let outputBuffer
+        let ext = path.extname(file.name).toLowerCase();
+
+        outputBuffer = await sharp(buffer)
+            .jpeg({ quality: 90 })
+            .toBuffer();
+        ext = ".jpg"
+
         const uniqueName = `${Date.now()}_${uuidname}${ext}`;
 
         await fs.mkdir(businessProfileUploadsDir, { recursive: true });

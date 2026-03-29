@@ -4,6 +4,7 @@ import path from "path";
 import crypto from "crypto";
 import { query } from "../DB";
 import { DoResponse } from "~/lib/lib";
+import sharp from "sharp";
 
 const galleryDir = path.resolve("public/business_gallery_pics");
 
@@ -56,10 +57,21 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
         if (file) {
             // Generate unique name
-            const uuidname = crypto.randomUUID();
-            const ext = path.extname(file.name);
-            const uniqueName = `${Date.now()}_${uuidname}${ext}`;
             const buffer = Buffer.from(await file.arrayBuffer());
+            const uuidname = crypto.randomUUID();
+
+            let outputBuffer
+            let ext = path.extname(file.name).toLowerCase();
+
+            outputBuffer = await sharp(buffer)
+                .jpeg({ quality: 90 })
+                .toBuffer();
+            ext = ".jpg"
+
+
+            const uniqueName = `${Date.now()}_${uuidname}${ext}`;
+
+
             const filePath = path.join(galleryDir, uniqueName);
 
             await writeFile(filePath, buffer);

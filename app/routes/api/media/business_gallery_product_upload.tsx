@@ -4,6 +4,7 @@ import path from "path";
 import crypto from "crypto";
 import { DoResponse } from "~/lib/lib";
 import { query } from "../DB";
+import sharp from "sharp";
 
 const businessProductGalleryUploadsDir = path.resolve("public/business_gallery_products");
 
@@ -33,12 +34,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         const bid = formData.get("bid") as string | null;
         const productTitle = formData.get("product_title") as string | null;
         const productDescription = formData.get("product_description") as string | null;
+
         const rawAmount = (formData.get("product_amount") as string) || "";
+        console.log(rawAmount)
         const cleanedAmount = rawAmount
             .replace(/[^\d.]/g, "") // remove ₦, k, commas, etc
             .trim();
 
-        const productAmount = cleanedAmount ? parseFloat(cleanedAmount) : 0;
+        const productAmount: number = cleanedAmount ? Number(cleanedAmount) : 0;
 
         const productCurrencyCountryId = (formData.get("product_currency_country_id") as string) || "";
 
@@ -53,8 +56,17 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         }
 
         const buffer = Buffer.from(await file.arrayBuffer());
-        const ext = path.extname(file.name);
         const uuidname = crypto.randomUUID();
+
+        let outputBuffer
+        let ext = path.extname(file.name).toLowerCase();
+
+        outputBuffer = await sharp(buffer)
+            .jpeg({ quality: 90 })
+            .toBuffer();
+        ext = ".jpg"
+
+
         const uniqueName = `${Date.now()}_${uuidname}${ext}`;
 
         await fs.mkdir(businessProductGalleryUploadsDir, { recursive: true });

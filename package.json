@@ -28,7 +28,8 @@
     "multer": "^2.0.1",
     "mysql2": "^3.14.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "sharp": "^0.34.5"
   },
   "devDependencies": {
     "@remix-run/dev": "^2.16.8",

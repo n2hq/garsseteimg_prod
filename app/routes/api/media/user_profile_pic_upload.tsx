@@ -5,6 +5,7 @@ import util from "util";
 import { ActionFunctionArgs, LoaderFunction } from "@remix-run/node";
 import { DoResponse, headers } from "~/lib/lib";
 import { query } from "../DB";
+import sharp from "sharp";
 
 const userProfileUploadsDir = path.resolve("public/user_profile_pics");
 
@@ -38,8 +39,19 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         await fs.mkdir(userProfileUploadsDir, { recursive: true });
 
         const buffer = Buffer.from(await file.arrayBuffer());
-        const ext = path.extname(file.name);
-        const uniqueName = `${Date.now()}_${crypto.randomUUID()}${ext}`;
+        const uuidname = crypto.randomUUID();
+
+        let outputBuffer
+        let ext = path.extname(file.name).toLowerCase();
+
+        outputBuffer = await sharp(buffer)
+            .jpeg({ quality: 90 })
+            .toBuffer();
+        ext = ".jpg"
+
+
+        const uniqueName = `${Date.now()}_${uuidname}${ext}`;
+
         const filePath = path.join(userProfileUploadsDir, uniqueName);
 
         await fs.writeFile(filePath, buffer);

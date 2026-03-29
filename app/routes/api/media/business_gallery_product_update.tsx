@@ -4,6 +4,7 @@ import path from "path";
 import crypto from "crypto";
 import { query } from "../DB";
 import { DoResponse } from "~/lib/lib";
+import sharp from "sharp";
 
 const galleryDir = path.resolve("public/business_gallery_products");
 
@@ -68,12 +69,24 @@ export const action = async ({ request }: ActionFunctionArgs) => {
             console.log(file)
             console.log('herebol')
             // Generate unique name
-            const uuidname = crypto.randomUUID();
-            const ext = path.extname(file.name);
-            const uniqueName = `${Date.now()}_${uuidname}${ext}`;
             const buffer = Buffer.from(await file.arrayBuffer());
+            const uuidname = crypto.randomUUID();
+
+            let outputBuffer
+            let ext = path.extname(file.name).toLowerCase();
+
+            outputBuffer = await sharp(buffer)
+                .jpeg({ quality: 90 })
+                .toBuffer();
+            ext = ".jpg"
+
+
+            const uniqueName = `${Date.now()}_${uuidname}${ext}`;
+
             const filePath = path.join(galleryDir, uniqueName);
-            console.log(filePath)
+
+
+            //console.log(filePath)
             await writeFile(filePath, buffer);
 
             // Delete old image
