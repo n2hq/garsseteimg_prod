@@ -8,7 +8,7 @@ import { query } from "../DB";
 const businessGalleryUploadsDir = path.resolve("public/business_gallery_pics");
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-    if (request.method === "OPTIONS") {
+    /* if (request.method === "OPTIONS") {
         return new Response(null, {
             status: 204,
             headers: {
@@ -18,7 +18,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
                 "Access-Control-Allow-Credentials": "true", // optional
             },
         });
-    }
+    } */
 
     return DoResponse({ error: "method not allowed" }, 405)
 
