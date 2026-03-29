@@ -3,7 +3,6 @@ import { query } from "../DB";
 import fs from "fs/promises";
 import { ActionFunctionArgs, LoaderFunction } from "@remix-run/node";
 import path from "path";
-import sharp from "sharp";
 
 const businessProfileUploadsDir = path.resolve("public/business_profile_pics");
 
@@ -41,30 +40,19 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         }
 
         const buffer = Buffer.from(await file.arrayBuffer());
+        const ext = path.extname(file.name);
         const uuidname = crypto.randomUUID();
-
-        let outputBuffer
-        let ext = path.extname(file.name).toLowerCase();
-
-        console.log("🔥 Before sharp");
-
-        outputBuffer = await sharp(buffer)
-            .jpeg({ quality: 90 })
-            .toBuffer();
-        ext = ".jpg"
-
-        console.log("🔥 After sharp");
-
         const uniqueName = `${Date.now()}_${uuidname}${ext}`;
+
+        console.log('i am here')
 
         await fs.mkdir(businessProfileUploadsDir, { recursive: true });
 
         const filePath = path.join(businessProfileUploadsDir, uniqueName);
-        await fs.writeFile(filePath, outputBuffer);
+        await fs.writeFile(filePath, buffer);
 
         const fileUrl = `/business_profile_pics/${uniqueName}`;
-        let mimeType = file.type;
-        mimeType = 'image/jpeg'
+        const mimeType = file.type;
         const imageGuid = crypto.randomUUID();
 
         const exists: any[] = await query(
@@ -72,12 +60,6 @@ export const action = async ({ request }: ActionFunctionArgs) => {
             [guid, bid]
         );
 
-        console.log(uniqueName)
-        console.log(guid)
-        console.log(imageGuid)
-        console.log(bid)
-        console.log(fileUrl)
-        console.log(mimeType)
 
         if (exists.length === 0) {
             const result = await query(
