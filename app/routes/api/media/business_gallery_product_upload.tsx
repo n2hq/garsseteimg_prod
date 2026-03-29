@@ -6,7 +6,7 @@ import { DoResponse } from "~/lib/lib";
 import { query } from "../DB";
 import sharp from "sharp";
 
-const businessProductGalleryUploadsDir = path.resolve("public/business_gallery_products");
+const businessProductGalleryUploadsDir = path.resolve("vmedia/business_gallery_products");
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     if (request.method === "OPTIONS") {

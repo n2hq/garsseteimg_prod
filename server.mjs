@@ -88,7 +88,19 @@ if (viteDevServer) {
 
 // Everything else (like favicon.ico) is cached for an hour. You may want to be
 // more aggressive with this caching.
+let UPLOADS_DIR = ''
+
+if (process.env.NODE_ENV === "production") {
+  UPLOADS_DIR = '/var/www/vmedia'
+} else if (process.env.NODE_ENV === "test") {
+  UPLOADS_DIR = '/var/www/tmedia'
+} else {
+  UPLOADS_DIR = '../vmedia'
+}
+
+
 app.use(express.static("build/client", { maxAge: "1h" }));
+app.use("/vmedia", express.static(UPLOADS_DIR))
 
 app.use(morgan("tiny"));
 

@@ -5,7 +5,7 @@ import { ActionFunctionArgs, LoaderFunction } from "@remix-run/node";
 import path from "path";
 import sharp from "sharp";
 
-const userProfileUploadsDir = path.resolve("public/user_profile_bg");
+const userProfileUploadsDir = path.resolve("vmedia/user_profile_bg");
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     if (request.method === "OPTIONS") {

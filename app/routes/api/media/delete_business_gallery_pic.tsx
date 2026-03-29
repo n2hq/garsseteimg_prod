@@ -4,7 +4,7 @@ import path from "path";
 import { query } from "../DB";
 import { DoResponse } from "~/lib/lib";
 
-const galleryDir = path.resolve("public/business_gallery_pics");
+const galleryDir = path.resolve("vmedia/business_gallery_pics");
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     if (request.method === "OPTIONS") {

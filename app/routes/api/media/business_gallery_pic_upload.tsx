@@ -5,7 +5,7 @@ import crypto from "crypto";
 import { DoResponse } from "~/lib/lib";
 import { query } from "../DB";
 
-const businessGalleryUploadsDir = path.resolve("public/business_gallery_pics");
+const businessGalleryUploadsDir = path.resolve("vmedia/business_gallery_pics");
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     /* if (request.method === "OPTIONS") {

@@ -4,10 +4,10 @@ import fs from "fs/promises";
 import { ActionFunctionArgs, LoaderFunction } from "@remix-run/node";
 import path from "path";
 
-const businessProfileUploadsDir = path.resolve("public/business_profile_pics");
+const businessProfileUploadsDir = path.resolve("vmedia/business_profile_pics");
 
 export const loader: LoaderFunction = async ({ request, params }) => {
-    if (request.method === "OPTIONS") {
+    /* if (request.method === "OPTIONS") {
         return new Response(null, {
             status: 204,
             headers: {
@@ -17,7 +17,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
                 "Access-Control-Allow-Credentials": "true", // optional
             },
         });
-    }
+    } */
 
     return DoResponse({ error: "method not allowed" }, 405)
 

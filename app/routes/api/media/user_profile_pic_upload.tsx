@@ -7,7 +7,7 @@ import { DoResponse, headers } from "~/lib/lib";
 import { query } from "../DB";
 import sharp from "sharp";
 
-const userProfileUploadsDir = path.resolve("public/user_profile_pics");
+const userProfileUploadsDir = path.resolve("vmedia/user_profile_pics");
 
 export const loader: LoaderFunction = async ({ request, params }) => {
 
