@@ -46,10 +46,14 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         let outputBuffer
         let ext = path.extname(file.name).toLowerCase();
 
+        console.log("🔥 Before sharp");
+
         outputBuffer = await sharp(buffer)
             .jpeg({ quality: 90 })
             .toBuffer();
         ext = ".jpg"
+
+        console.log("🔥 After sharp");
 
         const uniqueName = `${Date.now()}_${uuidname}${ext}`;
 
