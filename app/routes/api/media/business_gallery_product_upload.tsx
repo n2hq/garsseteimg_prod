@@ -75,7 +75,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         await fs.writeFile(filePath, buffer);
 
         const imageFileUrl = `/business_gallery_products/${uniqueName}`;
-        const mimeType = file.type;
+        let mimeType = file.type;
+        mimeType = 'image/jpeg'
         const productGuid = crypto.randomUUID();
 
         const result = await query(

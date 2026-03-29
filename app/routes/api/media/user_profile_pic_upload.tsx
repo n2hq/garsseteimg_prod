@@ -57,7 +57,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         await fs.writeFile(filePath, buffer);
 
         const fileUrl = `/user_profile_pics/${uniqueName}`;
-        const mimeType = file.type;
+        let mimeType = file.type;
+        mimeType = 'image/jpeg'
         const imageGuid = crypto.randomUUID();
 
 

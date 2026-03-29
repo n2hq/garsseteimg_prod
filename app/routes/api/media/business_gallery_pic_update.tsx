@@ -87,6 +87,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
             fileUrl = `/business_gallery_pics/${uniqueName}`;
             originalName = uniqueName;
             mimeType = file.type;
+            mimeType = 'image/jpeg'
         }
 
         const result = await query(

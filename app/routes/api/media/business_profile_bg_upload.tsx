@@ -60,7 +60,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         await fs.writeFile(filePath, buffer);
 
         const fileUrl = `/business_profile_bg/${uniqueName}`;
-        const mimeType = file.type;
+        let mimeType = file.type;
+        mimeType = 'image/jpeg'
         const imageGuid = crypto.randomUUID();
 
         const exists: any[] = await query(

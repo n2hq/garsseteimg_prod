@@ -101,6 +101,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
             fileUrl = `/business_gallery_products/${uniqueName}`;
             originalName = uniqueName;
             mimeType = file.type;
+            mimeType = 'image/jpeg'
         }
 
 
